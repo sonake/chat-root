@@ -5,7 +5,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.websocketx.WebSocketClientProtocolHandler;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
@@ -22,6 +21,7 @@ public class WSServerInitialzer extends ChannelInitializer<SocketChannel> {
         ChannelPipeline pipeline = socketChannel.pipeline();
 
         // =================http相关支持================
+        pipeline.addLast(new HttpServerCodec());
         //大数据流支持
         pipeline.addLast(new ChunkedWriteHandler());
         // httpmessage进行聚合，聚合成fullhttprequest或fullhttpresponse，netty编程遍布使用
@@ -39,6 +39,6 @@ public class WSServerInitialzer extends ChannelInitializer<SocketChannel> {
          **/
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         // 添加自定义handler
-        pipeline.addLast(null);
+        pipeline.addLast(new ChatHandler());
     }
 }
