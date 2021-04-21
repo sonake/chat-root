@@ -1,4 +1,4 @@
-package com.cm.chat.websocket;
+package com.cm.chat.modules.netty;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
