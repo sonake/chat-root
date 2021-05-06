@@ -1,10 +1,13 @@
 package com.cm.chat.modules.domain;
 
+import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
+
 import lombok.Data;
 
 /**
@@ -17,7 +20,7 @@ public class CwUser implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.ASSIGN_ID)
     private String id;
 
     /**
@@ -59,9 +62,21 @@ public class CwUser implements Serializable {
     /**
      * 设备id
      */
-    @TableField(value = "clent_id")
-    private String clentId;
+    @TableField(value = "client_id")
+    private String clientId;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
+    public static CwUser userDefault(String username,String password){
+        CwUser user = new CwUser();
+        user.setNickname(username);
+        user.setUsername(username);
+        user.setPassword(SecureUtil.des(username.getBytes(StandardCharsets.UTF_8)).encryptBase64(password));
+        user.setFaceImg("");
+        user.setFaceImgBig("");
+        user.setQrcode("");
+        return user;
+    }
 }

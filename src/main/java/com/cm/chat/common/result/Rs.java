@@ -12,6 +12,10 @@ public class Rs {
         return new R(Code.C200.getCode(), Code.C200.getDesc(), data);
     }
 
+    public static R success(String msg, Object data) {
+        return new R(Code.C200.getCode(), msg, data);
+    }
+
     public static R failure(String msg) {
         return new R(Code.C999.getCode(), msg, null);
     }
